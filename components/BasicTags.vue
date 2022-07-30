@@ -2,18 +2,21 @@
   <section>
     <h2>{{ configs.title }}</h2>
     <h3>{{ configs.subtitle }} </h3>
-    <div>
-      <p v-for="(block, index) in blocks" :key="index">
-        {{ block.text }}
-      </p>
-    </div>
+    <ul>
+      <li>
+        <a v-for="(block, index) in blocks" :key="index" :href="block.anchor">
+          {{ block.text }}
+        </a>
+      </li>
+      </div>
+    </ul>
   </section>
 </template>
 <script lang="ts">
 
 import Vue from 'vue'
 export default Vue.extend({
-  name: 'BasicCard',
+  name: 'BasicTags',
   props: {
     blocks: {
       type: Array,
