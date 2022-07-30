@@ -11,3 +11,8 @@ export default Vue.extend({
   name: 'DefaultLayout'
 })
 </script>
+<style lang="sass">
+body
+  margin: 0
+
+</style>
