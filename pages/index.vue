@@ -15,11 +15,15 @@
 
 <script lang="ts">
 import Vue from 'vue'
-// import BasicCard from '~/components/BasicCard.vue'
-// import BasicTags from '~/components/BasicTags.vue'
+import BasicCard from '~/components/blocks/BasicCard.vue'
+import BasicTags from '~/components/blocks/BasicTags.vue'
 
 export default Vue.extend({
   name: 'IndexPage',
+  components: {
+    BasicCard,
+    BasicTags
+  },
   data () {
     return {
       typeToComponents: {
