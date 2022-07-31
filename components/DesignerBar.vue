@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <nav>
-      links
-    </nav>
-    <aside>
-      Designer Bar
+  <nav class="page-navbar">
+    Designer Bar
     </aside>
-  </div>
+  </nav>
 </template>
+<style lang="sass">
+.page-navbar
+    grid-area: navbar
+    height: 40px
+    background-color: gold
+</style>

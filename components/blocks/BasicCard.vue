@@ -12,6 +12,16 @@
 <script lang="ts">
 
 import Vue from 'vue'
+
+const BasicCardSchema = {
+  name: 'Card',
+  blocks: {
+    text: {
+      type: 'text'
+    }
+  }
+}
+
 export default Vue.extend({
   name: 'BasicCard',
   props: {
@@ -25,4 +35,5 @@ export default Vue.extend({
     }
   }
 })
+export { BasicCardSchema }
 </script>

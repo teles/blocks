@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <main class="page">
+    <DesignerBar />
     <section
       v-for="(section, index) in sections"
       :key="index"
+      class="page-content"
     >
       <component
         :is="typeToComponents[section.configs.type]"
@@ -10,13 +12,14 @@
         :configs="section.configs"
       />
     </section>
-  </div>
+    <DesignerCanva :schemas="schemas" :is-hidden="isCanvaHidden" />
+  </main>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import BasicCard from '~/components/blocks/BasicCard.vue'
-import BasicTags from '~/components/blocks/BasicTags.vue'
+import BasicCard, { BasicCardSchema } from '~/components/blocks/BasicCard.vue'
+import BasicTags, { BasicTagsSchema } from '~/components/blocks/BasicTags.vue'
 
 export default Vue.extend({
   name: 'IndexPage',
@@ -26,32 +29,33 @@ export default Vue.extend({
   },
   data () {
     return {
+      schemas: [
+        BasicCardSchema,
+        BasicTagsSchema
+      ],
+      isCanvaHidden: false,
       typeToComponents: {
         basicCard: 'BasicCard',
         basicTags: 'BasicTags'
       },
-      sections: [{
-        configs: {
-          type: 'basicCard',
-          title: 'Exemplo de título',
-          subtitle: 'Exemplo de subtítulo'
-        },
-        blocks: [{
-          text: 'Primeiro parágrafo'
-        }, {
-          text: 'Segundo parágrafo'
-        }]
-      }, {
-        configs: {
-          type: 'basicTags',
-          title: 'Segundo componente'
-        },
-        blocks: [{
-          text: 'Google',
-          anchor: 'https://www.google.com.br'
-        }]
-      }]
+      sections: []
     }
   }
 })
 </script>
+<style lang="sass">
+body
+  margin: 0
+
+.page
+  display: grid
+  grid-template-areas: "navbar navbar" "content canva"
+  grid-template-columns: 1fr 280px
+  min-height: 100vh
+  grid-template-rows: 40px 1fr
+
+.page-content
+    grid-area: content
+    background-color: #eee
+
+</style>

@@ -14,6 +14,17 @@
 <script lang="ts">
 
 import Vue from 'vue'
+const BasicTagsSchema = {
+  name: 'Tags',
+  blocks: {
+    text: {
+      type: 'string'
+    },
+    anchor: {
+      type: 'string'
+    }
+  }
+}
 export default Vue.extend({
   name: 'BasicTags',
   props: {
@@ -27,4 +38,5 @@ export default Vue.extend({
     }
   }
 })
+export { BasicTagsSchema }
 </script>
