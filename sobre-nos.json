@@ -1,0 +1,54 @@
+[{
+  "id": 1,
+  "position": 2,
+  "grid": "4 4 4",
+  "style": {
+    "borderAfter": true
+  },
+  "columns": [{
+    "position": 1,
+    "component": "BasicCard",
+    "data": {
+      "icon": "rocket",
+      "title": " Somos a maior plataforma de decoração do Brasil",
+      "text": "Aqui você encontra dicas, inspirações e os melhores produtos. Tudo que você precisa para ter a sua casa dos sonhos!"
+    }
+  }, {
+    "position": 1,
+    "component": "BasicCard",
+    "data": {
+      "icon": "letter",
+      "title": "Inspiramos as pessoas com mais de 170 mil fotos",
+      "text": "Veja projetos reais de profissionais brasileiros, salve seus ambientes favoritos e entre em contato com o profissional que desejar."
+    }
+  }, {
+    "position": 1,
+    "component": "BasicCard",
+    "data": {
+      "icon": "house",
+      "title": "Temos os produtos que você procura para sua casa",
+      "text": "São mais de 700 mil produtos selecionados e com os melhores preços! Móveis, eletrodomésticos, iluminação, decoração, revestimentos e até materiais de construção!"
+    }    
+  }]
+}, {
+  "id": 2,
+  "position": 1,
+  "grid": "12",
+  "style": {
+    "fullwidth": true,
+    "palette": "accentColor"
+  },
+  "columns": [{
+    "position": 1,
+    "component": "Billboard",
+    "data": {
+      "image": {
+        "src": "https://d9hhrg4mnvzow.cloudfront.net/institucional.vivadecora.com.br/sobre-nos/3ae945d8-topo_1000000000000000000028.png",
+        "alt": "Fundo"
+      },
+      "title": "Sobre nós",
+      "subtitle": "Ajudamos as pessoas a criarem a casa dos sonhos",
+      "text": "A Viva Decora reúne as melhores ideias de decoração, design de interiores e arquitetura em um só lugar! Além de milhares de produtos em promoção para construir, mobiliar, reformar e decorar a sua casa."
+    }   
+  }]
+}]
