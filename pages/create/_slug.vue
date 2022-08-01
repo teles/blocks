@@ -1,6 +1,7 @@
 <template>
   <section class="page">
-    <DesignerBar />
+    <div class="page-canva" />
+    <nav class="page-navbar" />
     <main class="page-content">
       <section
         v-for="(section, index) in sections"
@@ -87,6 +88,7 @@ body
   flex-direction: column
   grid-area: content
   background-color: rgba(252, 252, 252)
+  padding: 20px
 
 .page-section
   width: 100%
@@ -100,7 +102,7 @@ body
   border-radius: 4px
   position: relative
   padding: 25px 14px 0
-  margin: 15px 0
+  margin: 0 0 15px 0
 
   &::before
     font-family: sans-serif
