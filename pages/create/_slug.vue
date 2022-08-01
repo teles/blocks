@@ -11,12 +11,17 @@
         <div
           v-for="(column, indexColumn) in section.columns"
           :key="indexColumn"
+          class="column"
           :style="{'width': `${ section.grid.split(' ')[indexColumn]/12 * 100 }%`}"
-          @dblclick="openEditor()"
         >
-          <div v-if="isEditing" class="component-wrapper">
+          <div class="component-wrapper" @dblclick="openEditor(column.data)">
             <div class="component-wrapper__options">
-              <button>Editar</button>
+              <button class="component-wrapper__option" @click="openEditor(column.data)">
+                Editar
+              </button>
+              <button class="component-wrapper__option">
+                Remover
+              </button>
             </div>
             <component
               :is="column.component"
@@ -25,6 +30,15 @@
           </div>
         </div>
       </section>
+      <div :class="isModalOpen === true ? 'modal--is-open' : 'modal'">
+        <div class="modal__overlay" @click="isModalOpen = false" />
+        <div class="modal__content">
+          <button class="modal__close-button" @click="isModalOpen = false">
+            &times;
+          </button>
+          modal edição
+        </div>
+      </div>
     </main>
   </section>
 </template>
@@ -44,12 +58,15 @@ export default Vue.extend({
   data () {
     return {
       sections: Sections,
-      isEditing: true
+      isEditing: true,
+      isModalOpen: false
     }
   },
   methods: {
-    openEditor () {
-      // console.log('oiii')
+    openEditor (component: any) {
+      (this as any).isModalOpen = true
+      console.log('sections: ', (this as any).sections)
+      console.log('component: ', component)
     }
   }
 })
@@ -86,11 +103,12 @@ body
   margin: 15px 0
 
   &::before
-    background-color: #F5F5F5
-    border: 1px solid #DDDDDD
+    font-family: sans-serif
+    background-color: #f5f5f5
+    border: 1px solid #ddd
     border-radius: 4px 0
-    color: #9DA0A4
-    content: "Section"
+    color: #9da0a4
+    content: "Seção"
     font-size: 12px
     font-weight: bold
     left: -1px
@@ -108,11 +126,12 @@ body
     position: relative
 
     &::before
-      background-color: #F5F5F5
+      font-family: sans-serif
+      background-color: #f5f5f5
       border: 1px solid #ddd
       border-radius: 4px 0 4px 0
-      color: #9DA0A4
-      content: "Column"
+      color: #9da0a4
+      content: "Coluna"
       font-size: 12px
       font-weight: bold
       left: -1px
@@ -122,9 +141,66 @@ body
 
 .component-wrapper
   position: relative
+
+  &:hover > .component-wrapper__options
+    opacity: 1
+
   .component-wrapper__options
     position: absolute
     top: -2px
     right: 0
+    opacity: .15
+    transition: all ease-in-out .1s
+
+  .component-wrapper__option
+    cursor: pointer
+
+.modal,
+.modal--is-open
+  display: none
+  position: fixed
+  top: 0
+  bottom: 0
+  right: 0
+  left: 0
+  justify-content: center
+  align-items: center
+  width: 100vw
+
+.modal--is-open
+  display: flex
+
+.modal__overlay
+  width: 100%
+  background-color: rgba(0, 0, 0, .5)
+  height: 100%
+  position: absolute
+  z-index: 1
+  cursor: pointer
+
+.modal__content
+  margin: auto
+  z-index: 2
+  background: #fff
+  padding: 20px
+  border-radius: 4px
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, .5)
+  position: relative
+
+  .modal__close-button
+    position: absolute
+    right: -10px
+    top: -10px
+    width: 32px
+    height: 32px
+    padding: 0
+    cursor: pointer
+    background-color: #fff
+    border: 1px solid #ccc
+    border-radius: 2px
+    color: rgba(0, 0, 0, .1)
+    transition: all ease-in-out .1s
+    &:hover
+      color: #333
 
 </style>
