@@ -96,9 +96,9 @@ body
 .page--is-editing
   display: grid
   grid-template-areas: "navbar navbar" "canva content"
-  grid-template-columns: 250px 1fr
+  grid-template-columns: 300px 1fr
   min-height: 100vh
-  grid-template-rows: 40px 1fr
+  grid-template-rows: 56px 1fr
   transition: all ease-in-out .1s
 
 .page
@@ -106,13 +106,23 @@ body
 
 .page-canva,
 .page-canva--is-editing
-    grid-area: canva
-    background-color: #16161d
-    color: #fff
-    max-width: initial
+  border-left: 70px solid #18191b
+  grid-area: canva
+  background-color: #252627
+  color: #fff
+  max-width: initial
 
 .page-canva
   max-width: 0
+
+.page-navbar
+  grid-area: navbar
+  height: 56px
+  background-image: linear-gradient(90deg, #ff5656, hsl(6deg 81% 54%))
+  color: #fff
+  display: flex
+  padding: 10px
+  box-sizing: border-box
 
 .page-content
   display: flex
@@ -191,7 +201,7 @@ body
   border: 0
   border-radius: 0
   margin: 0
-  padding: 0
+  padding: 16px
   &::before
     content: none
 
