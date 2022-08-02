@@ -1,21 +1,29 @@
 <template>
-  <section class="page">
-    <div class="page-canva" />
-    <nav class="page-navbar" />
+  <section :class="{'edit': 'page--is-editing', 'preview': 'page'}[mode]">
+    <div :class="{'edit': 'page-canva--is-editing', 'preview': 'page-canva'}[mode]" />
+    <nav class="page-navbar">
+      <button @click="setMode('edit')">
+        Editar
+      </button>
+      <button @click="setMode('preview')">
+        Pré visualizar
+      </button>
+      {{ mode }}
+    </nav>
     <main class="page-content">
       <section
         v-for="(section, index) in sections"
         :key="index"
         :style="{'order': section.position}"
-        class="page-section"
+        :class="{'edit': 'page-section--is-editing', 'preview': 'page-section'}[mode]"
       >
         <div
           v-for="(column, indexColumn) in section.columns"
           :key="indexColumn"
-          class="column"
+          :class="{'edit': 'column--is-editing', 'preview': 'column'}[mode]"
           :style="{'width': `${ section.grid.split(' ')[indexColumn]/12 * 100 }%`}"
         >
-          <div class="component-wrapper" @dblclick="openEditor(column.data)">
+          <div :class="{'edit': 'component-wrapper--is-editing', 'preview': 'component-wrapper'}[mode]" @dblclick="openEditor(column.data)">
             <div class="component-wrapper__options">
               <button class="component-wrapper__option" @click="openEditor(column.data)">
                 Editar
@@ -37,7 +45,7 @@
           <button class="modal__close-button" @click="isModalOpen = false">
             &times;
           </button>
-          modal edição
+          {{ modalContent }}
         </div>
       </div>
     </main>
@@ -49,6 +57,7 @@ import Vue from 'vue'
 import BasicCard from '~/components/blocks/BasicCard.vue'
 import Billboard from '~/components/blocks/Billboard.vue'
 import Sections from '~/sobre-nos.json'
+type mode = 'edit' | 'preview'
 
 export default Vue.extend({
   name: 'IndexPage',
@@ -58,16 +67,23 @@ export default Vue.extend({
   },
   data () {
     return {
+      modalContent: {},
       sections: Sections,
-      isEditing: true,
+      mode: 'edit',
       isModalOpen: false
     }
   },
   methods: {
+    setMode (mode: mode) {
+      (this as any).mode = mode
+    },
     openEditor (component: any) {
-      (this as any).isModalOpen = true
-      console.log('sections: ', (this as any).sections)
-      console.log('component: ', component)
+      if ((this as any).mode === 'edit') {
+        (this as any).modalContent = component;
+        (this as any).isModalOpen = true
+        console.log('sections: ', (this as any).sections)
+        console.log('component: ', component)
+      }
     }
   }
 })
@@ -76,12 +92,27 @@ export default Vue.extend({
 body
   margin: 0
 
-.page
+.page,
+.page--is-editing
   display: grid
   grid-template-areas: "navbar navbar" "canva content"
   grid-template-columns: 250px 1fr
   min-height: 100vh
   grid-template-rows: 40px 1fr
+  transition: all ease-in-out .1s
+
+.page
+  grid-template-columns: 0 1fr
+
+.page-canva,
+.page-canva--is-editing
+    grid-area: canva
+    background-color: #16161d
+    color: #fff
+    max-width: initial
+
+.page-canva
+  max-width: 0
 
 .page-content
   display: flex
@@ -90,7 +121,8 @@ body
   background-color: rgba(252, 252, 252)
   padding: 20px
 
-.page-section
+.page-section,
+.page-section--is-editing
   width: 100%
   display: flex
   box-sizing: border-box
@@ -119,7 +151,20 @@ body
     position: absolute
     top: -1px
 
-.column
+.page-section
+  width: initial
+  gap: 0
+  background-color: initial
+  box-shadow: none
+  border: none
+  border-radius: 0
+  padding: 0
+  margin: 0
+  &::before
+    content: none
+
+.column,
+.column--is-editing
     background-color: #fff
     border: 1px solid #ddd
     border-radius: 4px
@@ -141,13 +186,24 @@ body
       position: absolute
       top: -1px
 
-.component-wrapper
+.column
+  background-color: initial
+  border: 0
+  border-radius: 0
+  margin: 0
+  padding: 0
+  &::before
+    content: none
+
+.component-wrapper,
+.component-wrapper--is-editing
   position: relative
 
   &:hover > .component-wrapper__options
     opacity: 1
 
   .component-wrapper__options
+    display: none
     position: absolute
     top: -2px
     right: 0
@@ -156,6 +212,10 @@ body
 
   .component-wrapper__option
     cursor: pointer
+
+.component-wrapper--is-editing
+  .component-wrapper__options
+    display: block
 
 .modal,
 .modal--is-open
@@ -188,6 +248,8 @@ body
   border-radius: 4px
   box-shadow: 1px 1px 4px rgba(0, 0, 0, .5)
   position: relative
+  width: 800px
+  max-width: calc(100vw - 80px)
 
   .modal__close-button
     position: absolute

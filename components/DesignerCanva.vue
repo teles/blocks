@@ -27,14 +27,5 @@ export default Vue.extend({
 })
 </script>
 <style lang="sass">
-.page-canva,
-.page-canva--hidden
-    grid-area: canva
-    background-color: #16161d
-    color: #fff
-    max-width: initial
-
-.page-canva--hidden
-  max-width: 0
 
 </style>
