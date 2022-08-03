@@ -6,8 +6,13 @@
   </div>
 </template>
 <script lang="ts">
+import Vue, { PropOptions } from 'vue'
 
-import Vue from 'vue'
+const BasicCardSchema = {
+  icon: '',
+  title: '',
+  text: ''
+}
 
 export default Vue.extend({
   name: 'BasicCard',
@@ -15,7 +20,9 @@ export default Vue.extend({
     data: {
       type: Object,
       required: true
-    }
+    } as PropOptions<typeof BasicCardSchema>
   }
 })
+
+export { BasicCardSchema }
 </script>

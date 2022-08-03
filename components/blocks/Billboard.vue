@@ -11,18 +11,28 @@
   </div>
 </template>
 <script lang="ts">
-import Vue from 'vue'
-
+import Vue, { PropOptions } from 'vue'
+const BillboardSchema = {
+  image: {
+    src: '',
+    alt: ''
+  },
+  title: '',
+  subtitle: '',
+  text: ''
+}
 export default Vue.extend({
   name: 'Billboard', // eslint-disable-line vue/multi-word-component-names
   props: {
     data: {
       type: Object,
       required: true
-    }
+    } as PropOptions<typeof BillboardSchema>
   }
 })
+export { BillboardSchema }
 </script>
+
 <style lang="sass">
 .billboard
   .billboard__image

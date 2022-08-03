@@ -1,18 +1,25 @@
 <template>
   <section :class="{'edit': 'page--is-editing', 'preview': 'page'}[mode]">
-    <div :class="{'edit': 'page-canva--is-editing', 'preview': 'page-canva'}[mode]" />
+    <div :class="{'edit': 'page-canva--is-editing', 'preview': 'page-canva'}[mode]">
+      <ul class="page-canva__links">
+        <li>Página</li>
+        <li>Componentes</li>
+      </ul>
+      <div class="page-canva__content">
+        Componentes
+      </div>
+    </div>
     <nav class="page-navbar">
-      <button @click="setMode('edit')">
+      <button v-if="mode !== 'edit'" @click="setMode('edit')">
         Editar
       </button>
-      <button @click="setMode('preview')">
+      <button v-if="mode !== 'preview'" @click="setMode('preview')">
         Pré visualizar
       </button>
-      {{ mode }}
     </nav>
     <main class="page-content">
       <section
-        v-for="(section, index) in sections"
+        v-for="(section, index) in page.sections"
         :key="index"
         :style="{'order': section.position}"
         :class="{'edit': 'page-section--is-editing', 'preview': 'page-section'}[mode]"
@@ -23,9 +30,9 @@
           :class="{'edit': 'column--is-editing', 'preview': 'column'}[mode]"
           :style="{'width': `${ section.grid.split(' ')[indexColumn]/12 * 100 }%`}"
         >
-          <div :class="{'edit': 'component-wrapper--is-editing', 'preview': 'component-wrapper'}[mode]" @dblclick="openEditor(column.data)">
+          <div :class="{'edit': 'component-wrapper--is-editing', 'preview': 'component-wrapper'}[mode]" @dblclick="openEditor(page.components[column])">
             <div class="component-wrapper__options">
-              <button class="component-wrapper__option" @click="openEditor(column.data)">
+              <button class="component-wrapper__option" @click="openEditor(page.components[column])">
                 Editar
               </button>
               <button class="component-wrapper__option">
@@ -33,8 +40,8 @@
               </button>
             </div>
             <component
-              :is="column.component"
-              :data="column.data"
+              :is="page.components[column].type"
+              :data="page.components[column].data"
             />
           </div>
         </div>
@@ -45,7 +52,7 @@
           <button class="modal__close-button" @click="isModalOpen = false">
             &times;
           </button>
-          {{ modalContent }}
+          {{ schemas[modalContent.type] }}
         </div>
       </div>
     </main>
@@ -54,9 +61,9 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import BasicCard from '~/components/blocks/BasicCard.vue'
-import Billboard from '~/components/blocks/Billboard.vue'
-import Sections from '~/sobre-nos.json'
+import BasicCard, { BasicCardSchema } from '~/components/blocks/BasicCard.vue'
+import Billboard, { BillboardSchema } from '~/components/blocks/Billboard.vue'
+import Page from '~/sobre-nos.json'
 type mode = 'edit' | 'preview'
 
 export default Vue.extend({
@@ -67,8 +74,12 @@ export default Vue.extend({
   },
   data () {
     return {
+      schemas: {
+        BasicCard: BasicCardSchema,
+        Billboard: BillboardSchema
+      },
       modalContent: {},
-      sections: Sections,
+      page: Page,
       mode: 'edit',
       isModalOpen: false
     }
@@ -81,8 +92,6 @@ export default Vue.extend({
       if ((this as any).mode === 'edit') {
         (this as any).modalContent = component;
         (this as any).isModalOpen = true
-        console.log('sections: ', (this as any).sections)
-        console.log('component: ', component)
       }
     }
   }
