@@ -2,11 +2,26 @@
   <section :class="{'edit': 'page--is-editing', 'preview': 'page'}[mode]">
     <div :class="{'edit': 'page-canva--is-editing', 'preview': 'page-canva'}[mode]">
       <ul class="page-canva__links">
-        <li>Página</li>
-        <li>Componentes</li>
+        <li class="page-canva__link">
+          Página
+        </li>
+        <li class="page-canva__link">
+          Componentes
+        </li>
       </ul>
       <div class="page-canva__content">
         Componentes
+        <ul>
+          <li
+            v-for="(component, index) in componentsList"
+            :key="index"
+          >
+            <span>{{ component.label }}</span>
+            <button>
+              adicionar
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
     <nav class="page-navbar">
@@ -52,7 +67,10 @@
           <button class="modal__close-button" @click="isModalOpen = false">
             &times;
           </button>
-          {{ schemas[modalContent.type] }}
+          <SchemaToForm
+            :schemas="schemas[modalContent.type]"
+            :model="modalContent.data"
+          />
         </div>
       </div>
     </main>
@@ -61,8 +79,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import BasicCard, { BasicCardSchema } from '~/components/blocks/BasicCard.vue'
-import Billboard, { BillboardSchema } from '~/components/blocks/Billboard.vue'
+import BasicCard from '~/components/blocks/BasicCard/BasicCard.vue'
+import BasicCardSchema from '~/components/blocks/BasicCard/BasicCard.schema.js'
+import BillboardSchema from '~/components/blocks/Billboard/Billboard.schema.js'
+import Billboard from '~/components/blocks/Billboard/Billboard.vue'
 import Page from '~/sobre-nos.json'
 type mode = 'edit' | 'preview'
 
@@ -73,10 +93,28 @@ export default Vue.extend({
     Billboard
   },
   data () {
+    // context.$store.commit('History/savePage', { slug: Page.configs.slug, page: Page })
+
+    // context.$store.commit('History/updateComponent',
+    //   {
+    //     slug: Page.configs.slug,
+    //     id: '2',
+    //     value: {
+    //       icon: 'icone',
+    //       title: 'Titulo',
+    //       text: 'Texto'
+    //     }
+    //   }
+    // )
+
     return {
+      componentsList: [
+        BasicCardSchema,
+        BillboardSchema
+      ],
       schemas: {
-        BasicCard: BasicCardSchema,
-        Billboard: BillboardSchema
+        BasicCard: BasicCardSchema.schemas,
+        Billboard: BillboardSchema.schemas
       },
       modalContent: {},
       page: Page,
@@ -115,14 +153,25 @@ body
 
 .page-canva,
 .page-canva--is-editing
-  border-left: 70px solid #18191b
+  display: flex
   grid-area: canva
-  background-color: #252627
   color: #fff
   max-width: initial
 
 .page-canva
   max-width: 0
+
+.page-canva__links
+  padding: 10px
+  max-width: 80px
+  margin: 0
+  background-color: #18191b
+
+.page-canva__link
+  list-style: none
+
+.page-canva__content
+  background-color: #252627
 
 .page-navbar
   grid-area: navbar
@@ -281,7 +330,7 @@ body
     background-color: #fff
     border: 1px solid #ccc
     border-radius: 2px
-    color: rgba(0, 0, 0, .1)
+    color: rgba(0, 0, 0, .3)
     transition: all ease-in-out .1s
     &:hover
       color: #333

@@ -1,5 +1,8 @@
 {
-  "configs": {},
+  "configs": {
+    "id": 1,
+    "slug": "sobre-nos"
+  },
   "sections": {
     "1": {
       "position": 2,
